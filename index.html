@@ -1,70 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VerifiedVendor</title>
-<style>
-body{margin:0;font-family:sans-serif;background:#0f172a;color:#e2e8f0}
-header{text-align:center;padding:40px 20px}
-h1{font-size:2.2rem;background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0}
-p{color:#94a3b8}
-section{padding:30px 20px;max-width:900px;margin:auto}
-h2{font-size:1.5rem;color:#f8fafc;margin-bottom:15px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:15px}
-.card{background:#1e293b;border-radius:12px;padding:12px;border:1px solid #334155}
-.card img{width:100%;border-radius:8px;aspect-ratio:1/1;object-fit:cover}
-.btn{display:block;text-align:center;background:#38bdf8;color:#0f172a;padding:10px;border-radius:8px;text-decoration:none;font-weight:600;margin-top:10px}
-.sell{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;text-align:center;margin-top:20px}
-.sell .btn{background:#22c55e;color:#fff}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VerifiedVendor</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#020617;
+      color:#e2e8f0;
+      overflow-x:hidden;
+    }
+
+    a{
+      text-decoration:none;
+    }
+
+    /* Background Glow */
+    .bg-glow{
+      position:fixed;
+      width:500px;
+      height:500px;
+      background:rgba(56,189,248,0.12);
+      filter:blur(120px);
+      border-radius:50%;
+      top:-150px;
+      right:-150px;
+      z-index:-1;
+    }
+
+    .bg-glow2{
+      position:fixed;
+      width:400px;
+      height:400px;
+      background:rgba(129,140,248,0.10);
+      filter:blur(120px);
+      border-radius:50%;
+      bottom:-120px;
+      left:-120px;
+      z-index:-1;
+    }
+
+    /* Header */
+    header{
+      text-align:center;
+      padding:80px 20px 50px;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:8px 16px;
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:50px;
+      background:rgba(255,255,255,0.03);
+      color:#38bdf8;
+      font-size:14px;
+      margin-bottom:20px;
+      backdrop-filter:blur(10px);
+    }
+
+    h1{
+      font-size:clamp(2.5rem,6vw,4.5rem);
+      font-weight:800;
+      background:linear-gradient(90deg,#38bdf8,#818cf8,#ec4899);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:20px;
+    }
+
+    .hero-text{
+      max-width:650px;
+      margin:auto;
+      color:#94a3b8;
+      font-size:1.05rem;
+      line-height:1.7;
+    }
+
+    .hero-buttons{
+      margin-top:35px;
+      display:flex;
+      justify-content:center;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:14px 24px;
+      border-radius:12px;
+      font-weight:600;
+      transition:0.3s ease;
+      display:inline-block;
+    }
+
+    .btn-primary{
+      background:linear-gradient(90deg,#38bdf8,#818cf8);
+      color:#fff;
+      box-shadow:0 10px 30px rgba(56,189,248,0.3);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-3px);
+    }
+
+    .btn-secondary{
+      border:1px solid #334155;
+      color:#e2e8f0;
+      background:#0f172a;
+    }
+
+    .btn-secondary:hover{
+      background:#1e293b;
+    }
+
+    /* Section */
+    section{
+      max-width:1200px;
+      margin:auto;
+      padding:40px 20px 80px;
+    }
+
+    .section-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:25px;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .section-title h2{
+      font-size:1.8rem;
+    }
+
+    .section-title p{
+      color:#94a3b8;
+    }
+
+    /* Grid */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+    }
+
+    /* Card */
+    .card{
+      background:rgba(15,23,42,0.85);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:22px;
+      overflow:hidden;
+      transition:0.35s ease;
+      backdrop-filter:blur(12px);
+      position:relative;
+    }
+
+    .card:hover{
+      transform:translateY(-8px);
+      border-color:rgba(56,189,248,0.4);
+      box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    }
+
+    .card img{
+      width:100%;
+      height:220px;
+      object-fit:contain;
+      background:#0f172a;
+      padding:30px;
+    }
+
+    .card-content{
+      padding:20px;
+    }
+
+    .tag{
+      display:inline-block;
+      padding:6px 12px;
+      background:rgba(56,189,248,0.1);
+      color:#38bdf8;
+      border-radius:50px;
+      font-size:12px;
+      margin-bottom:12px;
+    }
+
+    .card h3{
+      font-size:1.2rem;
+      margin-bottom:10px;
+    }
+
+    .card p{
+      color:#94a3b8;
+      font-size:14px;
+      line-height:1.6;
+      margin-bottom:20px;
+    }
+
+    .card .btn{
+      width:100%;
+      text-align:center;
+      background:linear-gradient(90deg,#38bdf8,#818cf8);
+      color:#fff;
+    }
+
+    /* Sell Box */
+    .sell-box{
+      margin-top:60px;
+      background:linear-gradient(135deg,#0f172a,#111827);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:28px;
+      padding:40px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .sell-box::before{
+      content:"";
+      position:absolute;
+      width:250px;
+      height:250px;
+      background:rgba(34,197,94,0.12);
+      filter:blur(100px);
+      top:-80px;
+      right:-80px;
+    }
+
+    .sell-box h2{
+      font-size:2rem;
+      margin-bottom:15px;
+    }
+
+    .sell-box p{
+      color:#94a3b8;
+      max-width:700px;
+      margin:0 auto 30px;
+      line-height:1.7;
+    }
+
+    .sell-box .btn{
+      background:linear-gradient(90deg,#22c55e,#16a34a);
+      color:#fff;
+      padding:16px 28px;
+    }
+
+    /* Footer */
+    footer{
+      text-align:center;
+      padding:30px 20px;
+      border-top:1px solid rgba(255,255,255,0.05);
+      color:#64748b;
+      font-size:14px;
+    }
+
+    @media(max-width:768px){
+      .hero-buttons{
+        flex-direction:column;
+      }
+
+      .btn{
+        width:100%;
+        text-align:center;
+      }
+
+      .sell-box{
+        padding:30px 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<header>
-<h1>VerifiedVendor</h1>
-<p>Buy & sell fast. Trusted deals, mobile-first.</p>
-</header>
+  <div class="bg-glow"></div>
+  <div class="bg-glow2"></div>
 
-<section>
-<h2>🔥 Available Now</h2>
-<div class="grid">
+  <!-- Header -->
+  <header>
 
-<div class="card">
-<img src="https://via.placeholder.com/300/1e293b/38bdf8?text=FB">
-<h3>Foreign FB Account</h3>
-<p>Message for Price</p>
-<a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">Join Channel</a>
-</div>
+    <div class="badge">
+      ✔ Trusted Digital Marketplace
+    </div>
 
-<div class="card">
-<img src="https://via.placeholder.com/300/1e293b/818cf8?text=IG">
-<h3>IG Account</h3>
-<p>Message for Price</p>
-<a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">Join Channel</a>
-</div>
+    <h1>VerifiedVendor</h1>
 
-<div class="card">
-<img src="https://via.placeholder.com/300/1e293b/ec4899?text=TT">
-<h3>TikTok Account</h3>
-<p>Message for Price</p>
-<a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">Join Channel</a>
-</div>
+    <p class="hero-text">
+      Buy and sell premium digital products safely and fast.
+      Verified deals, trusted vendors, and a smooth mobile experience.
+    </p>
 
-<div class="card">
-<img src="https://via.placeholder.com/300/1e293b/22c55e?text=SIM">
-<h3>Foreign Numbers</h3>
-<p>Message for Price</p>
-<a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">Join Channel</a>
-</div>
+    <div class="hero-buttons">
 
-</div>
+      <a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn btn-primary">
+        Join WhatsApp Channel
+      </a>
 
-<div class="sell">
-<p>Got digital products to sell? Join our channel and message us there.</p>
-<a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">Join Channel</a>
-</div>
-</section>
+      <a href="#products" class="btn btn-secondary">
+        Browse Products
+      </a>
+
+    </div>
+
+  </header>
+
+  <!-- Products -->
+  <section id="products">
+
+    <div class="section-title">
+      <h2>🔥 Trending Products</h2>
+      <p>Updated daily with verified listings</p>
+    </div>
+
+    <div class="grid">
+
+      <!-- Facebook -->
+      <div class="card">
+
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg">
+
+        <div class="card-content">
+
+          <span class="tag">Facebook</span>
+
+          <h3>Foreign FB Account</h3>
+
+          <p>
+            High-quality foreign Facebook accounts ready for use.
+            Secure access and trusted delivery.
+          </p>
+
+          <a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">
+            Join Channel
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- Instagram -->
+      <div class="card">
+
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
+
+        <div class="card-content">
+
+          <span class="tag">Instagram</span>
+
+          <h3>IG Account</h3>
+
+          <p>
+            Aged and fresh Instagram accounts available for personal
+            and business growth.
+          </p>
+
+          <a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">
+            Join Channel
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- TikTok -->
+      <div class="card">
+
+        <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg">
+
+        <div class="card-content">
+
+          <span class="tag">TikTok</span>
+
+          <h3>TikTok Account</h3>
+
+          <p>
+            Viral-ready TikTok accounts for creators, marketing,
+            and audience growth.
+          </p>
+
+          <a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">
+            Join Channel
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- Foreign Numbers -->
+      <div class="card">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3059/3059518.png">
+
+        <div class="card-content">
+
+          <span class="tag">Numbers</span>
+
+          <h3>Foreign Numbers</h3>
+
+          <p>
+            Reliable international virtual numbers available
+            for verification and communication.
+          </p>
+
+          <a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">
+            Join Channel
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Sell Box -->
+    <div class="sell-box">
+
+      <h2>Want To Sell Your Digital Products?</h2>
+
+      <p>
+        Promote your products to thousands of buyers through our trusted
+        WhatsApp channel. Fast exposure, trusted audience, and easy setup.
+      </p>
+
+      <a href="https://whatsapp.com/channel/0029VbC53Ej17EmmSRYnhU0i" class="btn">
+        Become a Vendor
+      </a>
+
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2026 VerifiedVendor. All rights reserved.
+  </footer>
 
 </body>
 </html>
